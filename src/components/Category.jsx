@@ -13,8 +13,8 @@ function Category() {
     <>
       <div className='d-grid ms-3'>
         <button onClick={handleShow} className='btn btn-warning'>Add New Category</button>
-  
-        <Modal
+      </div>
+      <Modal
           show={show}
           onHide={handleClose}
           backdrop="static"
@@ -41,7 +41,6 @@ function Category() {
             <Button className='btn btn-warning'>Add</Button>
           </Modal.Footer>
         </Modal>
-      </div>
     </>
   )
 }

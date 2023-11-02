@@ -3,7 +3,7 @@ import React from 'react'
 import Card from 'react-bootstrap/Card';
 import Modal from 'react-bootstrap/Modal';
 
-function VideoCard() {
+function VideoCard({displayData}) {
     const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);
@@ -11,10 +11,10 @@ function VideoCard() {
   return (
     <>
          <Card style={{ width: '18rem' }}>
-      <Card.Img onClick={handleShow} variant="top" src="https://c.saavncdn.com/026/Chaleya-From-Jawan-Hindi-2023-20230814014337-500x500.jpg" />
+      <Card.Img height={'280px'} onClick={handleShow} variant="top" src={displayData.url} />
       <Card.Body>
         <Card.Title className='d-flex justify-content-between align-items-center'>
-            <h6>Video Caption</h6>
+            <h6>{displayData.caption}</h6>
             <button className='btn btn-danger'><i class="fa-solid fa-trash-can"></i></button>
         </Card.Title>
       </Card.Body>
@@ -25,7 +25,7 @@ function VideoCard() {
           <Modal.Title>Video Caption</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-        <iframe width="100%" height="530" src="https://www.youtube.com/embed/8eYG5QGZAZs?autoplay=1" title="Jawan: Hayyoda (Tamil) | Shahrukh Khan | Atlee | Anirudh | Nayanthara | Vijay S | Priya Mali | Vivek" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        <iframe width="100%" height="530" src={`${displayData.embedLink}?autoplay=1`} title={displayData?.caption} frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
         </Modal.Body>
       </Modal>
     </>

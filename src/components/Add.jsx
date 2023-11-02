@@ -32,6 +32,13 @@ function Add() {
            //make api call uploadVideo
            const response = await uploadVideo(video)
            console.log(response);
+           if(response.status>=200 && response.status<300){
+            alert(`${response.data.caption} video uploaded sucessfully !`)
+            handleClose()
+           }else{
+            console.log(response);
+            alert("Cannot perform the operation. Please try after sometime....")
+           }
       }
      
     }
