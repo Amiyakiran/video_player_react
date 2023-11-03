@@ -4,7 +4,7 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import { uploadVideo } from '../services/allAPI';
 
-function Add() {
+function Add({setUploadVideoServerResponse}) {
     const [video,setVideo]=useState({
       id:"",
       caption:"",
@@ -33,7 +33,12 @@ function Add() {
            const response = await uploadVideo(video)
            console.log(response);
            if(response.status>=200 && response.status<300){
+            
+            //state lifting to get data automatically in sibling component view
+            setUploadVideoServerResponse(response.data)
+
             alert(`${response.data.caption} video uploaded sucessfully !`)
+            //to hide modal
             handleClose()
            }else{
             console.log(response);
