@@ -2,13 +2,26 @@ import { useState } from 'react';
 import React from 'react'
 import Card from 'react-bootstrap/Card';
 import Modal from 'react-bootstrap/Modal';
-import { deleteAVideos } from '../services/allAPI';
+import { addToHistory, deleteAVideos } from '../services/allAPI';
 
 function VideoCard({displayData, setDeleteVideoStatus}) {
     const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+    const handleShow = async() => {
+      setShow(true);
+      //api call to add video to watch history
+      const {caption,embedLink}=displayData
+      //time stamp
+      let today = new Date
+      console.log(today);
+      let timeStamp = new Intl.DateTimeFormat('en-US',{year:'numeric',month:'2-digit',day:'2-digit', hour:'2-digit',minute:'2-digit',second:'2-digit'}).format(today)
+      console.log(timeStamp);
+      let videoDetails = {
+        caption,embedLink,timeStamp
+      }
+        await addToHistory(videoDetails)
+    }
 
     //delete video
     const removeVideo = async(id)=>{

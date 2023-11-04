@@ -18,6 +18,8 @@ function View({uploadVideoServerResponse}) {
   console.log(allVideo);
   useEffect(()=>{
     getAllUploadedVideo()
+    //to delete multiple times
+    setDeleteVideoStatus(false)
   },[uploadVideoServerResponse , deleteVideoStatus])
 
 
