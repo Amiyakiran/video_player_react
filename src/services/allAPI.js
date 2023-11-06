@@ -40,3 +40,30 @@ export const deleteAVideos = async (id)=>{
     //make get request to  http://localhost:4000/history to get video history in json server and return response to watch history component 
     return await commonAPI('GET',`${serverURL}/history`,"")
  }
+
+
+ //upload a category
+
+export const addCategory = async (reqBody)=>{
+    //make post request to http://localhost:4000/categories to add category to json server return response to category component
+     return await commonAPI('POST',`${serverURL}/categories`,reqBody)
+
+}
+
+//get a category
+
+export const getAllCategory = async ()=>{
+    //make get request to http://localhost:4000/categories to get category from json server return response to category component
+     return await commonAPI('GET',`${serverURL}/categories`,"")
+
+}
+
+//delete a category
+
+export const deleteCategory = async (id)=>{
+    //make delete request to http://localhost:4000/categories/id to get category from json server return response to category component
+     return await commonAPI('DELETE',`${serverURL}/categories/${id}`,{})
+
+}
+
+
