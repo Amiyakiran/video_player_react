@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { getAllHistory } from '../services/allAPI'
+import { deleteHistory, getAllHistory } from '../services/allAPI'
 
 
 function WatchHistory() {
@@ -13,6 +13,11 @@ function WatchHistory() {
    setHistory(data);
   }
   console.log(history);
+
+  const handleDeleteHistory = async(id)=>{
+    await deleteHistory(id)
+    handleHistory()
+  }
 
   useEffect(()=>{
     handleHistory()
@@ -31,14 +36,16 @@ function WatchHistory() {
               <th>Caption</th>
               <th>URL</th>
               <th>Time Stamp</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tBody>
-           {history?history?.map((item,index)=>(<tr key={index}>{/* if we are rendering a list each row should have unique have */}
+           {history.length>0?history?.map((item,index)=>(<tr key={index}>{/* if we are rendering a list each row should have unique have */}
               <td>{index+1}</td>
               <td>{item.caption}</td>
               <td><a target='_blank' href={item.embedLink}>{item.embedLink}</a></td>
               <td>{item.timeStamp}</td>
+              <td><button onClick={()=>handleDeleteHistory(item?.id)} className='btn btn-danger'><i class="fa-solid fa-trash-can"></i></button></td>
             </tr>)) :
             <p>No watch History</p>
             }

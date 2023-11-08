@@ -5,7 +5,9 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { addCategory, getAllCategory } from '../services/allAPI';
+import { addCategory, deleteCategory, getAVideo, getAllCategory, updateCategory } from '../services/allAPI';
+import { Col, Row } from 'react-bootstrap';
+import VideoCard from './VideoCard';
 
 function Category() {
   const [show, setShow] = useState(false);
@@ -21,7 +23,8 @@ function Category() {
     //application/json
     if(categoryName){
       let body = {
-        categoryName
+        categoryName,
+        allVideos:[]
       }
       //make api call
       const response = await addCategory(body)
@@ -50,6 +53,31 @@ const getCategories = async ()=>{
 }
 console.log(allCategories);
 
+const handleDelete = async(id)=>{
+   await deleteCategory(id)
+   getCategories()
+}
+const dragOver = (e)=>{
+  e.preventDefault()
+  console.log("video drag over Category");
+}
+
+const videoDrop = async(e, categoryId)=>{
+  console.log("video Dropped inside Category id ", categoryId);
+ const videoId = e.dataTransfer.getData("videoID")
+ console.log("video card id is :",videoId);
+     //api call to get a video
+   const {data} = await getAVideo(videoId)
+   console.log(data);
+   //api to get category details
+   const selectedCategory = allCategories?.find(item=>item.id===categoryId)
+   selectedCategory.allVideos.push(data)
+   console.log(selectedCategory);
+   //make api call to update category
+   await updateCategory(categoryId,selectedCategory)
+   getCategories()
+}
+
 
 useEffect(()=>{
   getCategories()
@@ -62,14 +90,24 @@ useEffect(()=>{
         <button onClick={handleShow} className='btn btn-warning'>Add New Category</button>
       </div>
       {
-        allCategories? allCategories.map((item)=>(
-          <div className=' mt-5 border rounded p-3 ms-4'>
-              <div className="d-flex justify-content-between align-items-center">
+        allCategories?.length>0? allCategories?.map((item)=>(
+          <div className=' mt-5 border rounded p-3 ms-4' droppable onDragOver={(e)=>dragOver(e)} onDrop={(e)=>videoDrop(e,item?.id)}>
+              <div className="d-flex justify-content-between align-items-center mb-3">
                 <h6>{item.categoryName}</h6>
-                <button className='btn btn-danger ms-3'><i className='fa-solid fa-trash text-white'></i></button>
+                <button onClick={()=>handleDelete(item?.id)} className='btn btn-danger ms-3'><i className='fa-solid fa-trash text-white'></i></button>
               </div>
+              <Row>
+                {
+                  item?.allVideos &&
+                  item?.allVideos.map(card=>(
+                    <Col sm={12}>
+                      <VideoCard displayData={card} insideCategory={true} />
+                    </Col>
+                  ))
+                }
+              </Row>
           </div>
-        )): <p className='fw-bolder fs-5 text-danger'>Nothing to display</p>
+        )): <p className='fw-bolder fs-5 text-danger m-5'>No Category is added</p>
       }
 
       <Modal

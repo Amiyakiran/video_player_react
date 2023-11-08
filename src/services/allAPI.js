@@ -16,11 +16,6 @@ export const getAllVideos = async ()=>{
      return await commonAPI('GET',`${serverURL}/videos`,"")
 }
 
-//get a videos from json server
-/* export const getAVideos = async (id)=>{
-    //make get request to http://localhost:4000/videos to get videos to json server return response to videoCard component
-    return await commonAPI('GET',`${serverURL}/videos/${id}`,"")
-} */
 
 //delete a videos from json server
 export const deleteAVideos = async (id)=>{
@@ -40,6 +35,11 @@ export const deleteAVideos = async (id)=>{
     //make get request to  http://localhost:4000/history to get video history in json server and return response to watch history component 
     return await commonAPI('GET',`${serverURL}/history`,"")
  }
+ //api to delete history from json
+ export const deleteHistory = async (id)=>{
+    //make delete request to http://localhost:4000/history to  delete video from watch history from json server return response to watch history  component
+    return await commonAPI('DELETE',`${serverURL}/history/${id}`,{})
+}
 
 
  //upload a category
@@ -67,3 +67,15 @@ export const deleteCategory = async (id)=>{
 }
 
 
+//get a videos from json server
+ export const getAVideo = async (id)=>{
+    //make get request to http://localhost:4000/videos to get videos to json server return response to videoCard component
+    return await commonAPI('GET',`${serverURL}/videos/${id}`,"")
+}
+
+
+//update a category from json-server
+export const updateCategory = async (id,body)=>{
+    //make put request to http://localhost:4000/categories/id to update particular category from json server return response to category component
+    return await commonAPI('PUT',`${serverURL}/categories/${id}`,body)
+}
